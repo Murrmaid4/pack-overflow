@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 @Repository
-public class QuestionJdcbClientRepository implements QuestionRepository{
+public class QuestionJdbcClientRepository implements QuestionRepository{
     private final JdbcClient jdbcClient;
 
-    public QuestionJdcbClientRepository(JdbcClient jdbcClient) {
+    public QuestionJdbcClientRepository(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
     }
     private final String SELECT = """

@@ -17,10 +17,7 @@ public class User {
 
 
     public User() {
-    }
-
-    public User(int userId) {
-
+        
     }
 
     public User(int userId, String password, String username, String email) {

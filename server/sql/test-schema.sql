@@ -40,9 +40,22 @@ begin
     delete from `user`;
     alter table `user` auto_increment = 1;	
 
+create table `answers`(
+answer_id int primary key auto_increment,
+`user_id` int NOT NULL,
+question_id int NOT NULL,
+    `body` text NOT NULL,
+	`created_at` DATE NOT NULL,
+	`updated` DATE NOT NULL,
+  foreign key (user_id) references `user`(user_id),
+  foreign key (question_id) references `questions`(question_id)
+
+);
+
 	insert into `user` (username, `password`, email, first_name, last_name)
 	values
     ('test username 1', 'password1','email', 'Brandi', 'Murray'),
+
 	('test username 2', 'password2', 'email2', 'Kyle', 'Murray');
     
 	insert into questions (user_id, title, body, created, updated)
