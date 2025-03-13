@@ -4,7 +4,7 @@ import learn.packOverflow.models.Question;
 
 import java.util.List;
 
-public interface QuestionsRepository {
+public interface QuestionRepository {
     List<Question> findAll();
     List<Question> findByUser();
     List<Question> findByKeyword();

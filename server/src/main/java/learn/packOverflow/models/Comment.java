@@ -8,7 +8,7 @@ public class Comment {
     private int commentId;
     private User user;
     private Question question;
-    private Answers answer;
+    private Answer answer;
     private String body;
     private Date created;
 
@@ -40,11 +40,11 @@ public class Comment {
         this.question = question;
     }
 
-    public Answers getAnswer() {
+    public Answer getAnswer() {
         return answer;
     }
 
-    public void setAnswer(Answers answer) {
+    public void setAnswer(Answer answer) {
         this.answer = answer;
     }
 
