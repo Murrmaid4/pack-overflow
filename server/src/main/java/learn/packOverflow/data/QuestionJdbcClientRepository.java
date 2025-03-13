@@ -8,6 +8,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
+
 @Repository
 public class QuestionJdbcClientRepository implements QuestionRepository{
     private final JdbcClient jdbcClient;
@@ -37,8 +39,13 @@ public class QuestionJdbcClientRepository implements QuestionRepository{
     }
 
     @Override
-    public List<Question> findByKeyword(String keyword) {
-        return List.of();
+    public Set<Question> findByKeyword(String keyword) {
+        final String sql = SELECT + " WHERE title LIKE ? OR body LIKE ?;";
+        return jdbcClient.sql(sql)
+                .param("%" + keyword + "%")
+                .param("%" + keyword + "%")
+                .query(new QuestionsMapper())
+                .set();
     }
 
     @Override

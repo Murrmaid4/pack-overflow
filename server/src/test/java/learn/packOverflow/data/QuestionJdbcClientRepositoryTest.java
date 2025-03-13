@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -54,13 +55,43 @@ class QuestionJdbcClientRepositoryTest {
         List<Question> expected = List.of();
 
         List<Question> actual = repository.findByUser(nonexistentUserId);
-        
+
         assertEquals(expected, actual);
 
     }
 
     @Test
-    void findByKeyword() {
+    void shouldFindByKeywordInTitle() {
+        Set<Question> expected = Set.of(TestHelper.existingQuestion);
+
+        Set<Question> actual = repository.findByKeyword("moving");
+
+        assertEquals(expected, actual);
+    }
+    @Test
+    void shouldFindByKeywordInBody() {
+        Set<Question> expected = Set.of(TestHelper.existingQuestion);
+
+        Set<Question> actual = repository.findByKeyword("fishing");
+
+        assertEquals(expected, actual);
+    }
+    @Test
+    void shouldFindByKeywordInBodyAndTitle() {
+        Set<Question> expected = Set.of(TestHelper.existingQuestion);
+
+        Set<Question> actual = repository.findByKeyword("nova");
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldNotFindByMissingKeyword(){
+        Set<Question> expected = Set.of();
+
+        Set<Question> actual = repository.findByKeyword("florida");
+
+        assertEquals(expected, actual);
     }
 
     @Test
