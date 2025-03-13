@@ -27,12 +27,17 @@ public class QuestionJdbcClientRepository implements QuestionRepository{
     }
 
     @Override
-    public List<Question> findByUser() {
-        return List.of();
+    public List<Question> findByUser(int userId) {
+        final String sql = SELECT + "where u.user_id = ?;";
+        return jdbcClient.sql(sql)
+                .param(userId)
+                .query(new QuestionsMapper())
+                .list();
+
     }
 
     @Override
-    public List<Question> findByKeyword() {
+    public List<Question> findByKeyword(String keyword) {
         return List.of();
     }
 

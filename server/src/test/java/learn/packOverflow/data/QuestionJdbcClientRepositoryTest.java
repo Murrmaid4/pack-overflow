@@ -28,9 +28,7 @@ class QuestionJdbcClientRepositoryTest {
 
     @Test
     void shouldFindAll() {
-        User existingUser = new User(1, "test username 1", "password1", "email", "Brandi", "Murray");
-        Question existingQuestion = new Question(1, existingUser, "moving to nova scotia", "do i need to pack my own fishing gear or can i buy it there?", LocalDate.of(2025, 03, 24), LocalDate.of(2025, 03, 25));
-        List<Question> expected = List.of(existingQuestion);
+        List<Question> expected = List.of(TestHelper.existingQuestion);
 
         List<Question> actual = repository.findAll();
 
@@ -40,7 +38,25 @@ class QuestionJdbcClientRepositoryTest {
     }
 
     @Test
-    void findByUser() {
+    void shouldFindByUser() {
+        User existingUser = TestHelper.existingUser;
+        List<Question> expected = List.of(TestHelper.existingQuestion);
+
+        List<Question> actual = repository.findByUser(existingUser.getUserId());
+
+        assertNotNull(actual);
+        assertEquals(expected, actual);
+
+    }
+    @Test
+    void shouldNotFindByMissingUser() {
+        int nonexistentUserId = 999;
+        List<Question> expected = List.of();
+
+        List<Question> actual = repository.findByUser(nonexistentUserId);
+        
+        assertEquals(expected, actual);
+
     }
 
     @Test
