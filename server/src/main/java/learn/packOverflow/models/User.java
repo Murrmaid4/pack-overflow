@@ -16,7 +16,7 @@ public class User {
     private String last_name;
 
 
-    public User(int userId) {
+    public User() {
 
     }
 
