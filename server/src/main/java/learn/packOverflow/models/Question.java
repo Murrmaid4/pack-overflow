@@ -3,7 +3,7 @@ package learn.packOverflow.models;
 import java.util.Date;
 import java.util.Objects;
 
-public class Questions {
+public class Question {
 
     private int questionId;
     private User user;
@@ -13,10 +13,10 @@ public class Questions {
     private Date updated;
 
 
-    public Questions() {
+    public Question() {
     }
 
-    public Questions(int questionId, User user, String title, String body, Date created, Date updated) {
+    public Question(int questionId, User user, String title, String body, Date created, Date updated) {
         this.questionId = questionId;
         this.user = user;
         this.title = title;
@@ -77,7 +77,7 @@ public class Questions {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Questions questions = (Questions) o;
+        Question questions = (Question) o;
         return questionId == questions.questionId && Objects.equals(user, questions.user) && Objects.equals(title, questions.title) && Objects.equals(body, questions.body) && Objects.equals(created, questions.created) && Objects.equals(updated, questions.updated);
     }
 

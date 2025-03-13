@@ -3,17 +3,17 @@ package learn.packOverflow.models;
 import java.util.Date;
 import java.util.Objects;
 
-public class Comments {
+public class Comment {
 
     private int commentId;
     private User user;
-    private Questions question;
+    private Question question;
     private Answers answer;
     private String body;
     private Date created;
 
 
-    public Comments() {
+    public Comment() {
     }
 
     public int getCommentId() {
@@ -32,11 +32,11 @@ public class Comments {
         this.user = user;
     }
 
-    public Questions getQuestion() {
+    public Question getQuestion() {
         return question;
     }
 
-    public void setQuestion(Questions question) {
+    public void setQuestion(Question question) {
         this.question = question;
     }
 
@@ -67,7 +67,7 @@ public class Comments {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Comments comments = (Comments) o;
+        Comment comments = (Comment) o;
         return commentId == comments.commentId && Objects.equals(user, comments.user) && Objects.equals(question, comments.question) && Objects.equals(answer, comments.answer) && Objects.equals(body, comments.body) && Objects.equals(created, comments.created);
     }
 
