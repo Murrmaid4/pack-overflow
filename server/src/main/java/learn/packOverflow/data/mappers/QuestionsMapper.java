@@ -9,15 +9,14 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class QuestionsMapper implements RowMapper<Question> {
+    UserMapper userMapper = new UserMapper();
     @Override
     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
-        User user = new User();
-        user.setUserId(rs.getInt());
-
+        User user = userMapper.mapRow(rs, rowNum);
 
         Question question = new Question();
         question.setQuestionId(rs.getInt("question_id"));
-//        question.setUser()
+        question.setUser(user);
         question.setTitle(rs.getString("title"));
         question.setBody(rs.getString("body"));
         question.setCreated(rs.getDate("created").toLocalDate());

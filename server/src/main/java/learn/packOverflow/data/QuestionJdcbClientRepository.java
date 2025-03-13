@@ -1,5 +1,6 @@
 package learn.packOverflow.data;
 
+import learn.packOverflow.data.mappers.QuestionsMapper;
 import learn.packOverflow.models.Question;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -15,13 +16,14 @@ public class QuestionJdcbClientRepository implements QuestionRepository{
         this.jdbcClient = jdbcClient;
     }
     private final String SELECT = """
-            select question_id, `user_id`, `title`, `body`, `created`, `updated`
-            from questions
+            select q.question_id, q.user_id, q.title, q.body, q.created, q.updated,
+            u.username, u.password, u.email, u.first_name, u.last_name
+            from questions q inner join user u  on q.user_id=u.user_id
             """;
 
     @Override
     public List<Question> findAll() {
-        return List.of();
+        return jdbcClient.sql(SELECT + ";").query(new QuestionsMapper()).list();
     }
 
     @Override
@@ -36,15 +38,15 @@ public class QuestionJdcbClientRepository implements QuestionRepository{
 
     @Override
     public Question create(Question question) {
-        final String sql = "insert into questions (`user_id`, `title`, `body`, `created`, `updated`) values (:`user_id`, :`title`, :`body`, :`created`, :`updated`);";
+        final String sql = "insert into questions (user_id, title, body, created, updated) values (:user_id, :title, :body, :created, :updated);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         int rowsAffected = jdbcClient.sql(sql)
-                .param("`user_id`", question.getUser().getUserId())
-                .param("`title`", question.getTitle())
-                .param("`body`", question.getBody())
-                .param("`created`", question.getCreated())
-                .param("`updated`", question.getUpdated())
+                .param("user_id", question.getUser().getUserId())
+                .param("title", question.getTitle())
+                .param("body", question.getBody())
+                .param("created", question.getCreated())
+                .param("updated", question.getUpdated())
                 .update(keyHolder, "question_id");
         if (rowsAffected <= 0){
             return null;

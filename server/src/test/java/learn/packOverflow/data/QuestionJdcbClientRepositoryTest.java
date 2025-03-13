@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.simple.JdbcClient;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -22,11 +23,20 @@ class QuestionJdcbClientRepositoryTest {
 
     @BeforeEach
     void setup() {
-        jdbcClient.sql("call set_known_good_state();");
+        jdbcClient.sql("call set_known_good_state();").update();
     }
 
     @Test
     void shouldFindAll() {
+        User existingUser = new User(1, "test username 1", "password1", "email", "Brandi", "Murray");
+        Question existingQuestion = new Question(1, existingUser, "moving to nova scotia", "do i need to pack my own fishing gear or can i buy it there?", LocalDate.of(2025, 03, 24), LocalDate.of(2025, 03, 25));
+        List<Question> expected = List.of(existingQuestion);
+
+        List<Question> actual = repository.findAll();
+
+        assertNotNull(actual);
+        assertEquals(expected.size(), actual.size());
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -47,7 +57,7 @@ class QuestionJdcbClientRepositoryTest {
         beforeAdd.setBody("Test body");
         beforeAdd.setCreated(LocalDate.now().minusDays(1));
         beforeAdd.setUpdated(LocalDate.now());
-//todo create usermapper then insert query of finding users in db
+
         Question actual = repository.create(beforeAdd);
 
         assertNotNull(actual);
