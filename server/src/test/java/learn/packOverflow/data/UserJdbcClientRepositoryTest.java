@@ -25,15 +25,13 @@ class UserJdbcClientRepositoryTest {
     @Autowired
     UserJdbcClientRepository repository;
 
-    User USER1 = new User(1, "user1", "password1", "email", "Brandi", "Murray");
+    User USER1 = new User(1, "user1", "password1", "email1", "Brandi", "Murray");
     User USER2 = new User(2, "user2", "password2", "email2", "Kyle", "Murray");
 
-//    @BeforeEach
-//    void setup() {
-//        client.sql("call set_known_good_state();").update();
-//    }
-
-
+    @BeforeEach
+    void setup() {
+        client.sql("call set_known_good_state();").update();
+    }
 
 
     @Nested

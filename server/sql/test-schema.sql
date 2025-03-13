@@ -32,14 +32,6 @@ question_id int primary key auto_increment,
 --   foreign key (question_id) references `questions`(question_id)
 -- );
 
-delimiter //
-create procedure set_known_good_state()
-begin
-	delete from questions;
-    alter table questions auto_increment = 1;
-    delete from `user`;
-    alter table `user` auto_increment = 1;	
-
 create table `answers`(
 answer_id int primary key auto_increment,
 `user_id` int NOT NULL,
@@ -52,11 +44,19 @@ question_id int NOT NULL,
 
 );
 
+delimiter //
+create procedure set_known_good_state()
+begin
+	delete from questions;
+    alter table questions auto_increment = 1;
+    delete from `user`;
+    alter table `user` auto_increment = 1;	
+    
 	insert into `user` (username, `password`, email, first_name, last_name)
 	values
-    ('test username 1', 'password1','email', 'Brandi', 'Murray'),
+    ('user1', 'password1','email1', 'Brandi', 'Murray'),
 
-	('test username 2', 'password2', 'email2', 'Kyle', 'Murray');
+	('user2', 'password2', 'email2', 'Kyle', 'Murray');
     
 	insert into questions (user_id, title, body, created, updated)
 	values
