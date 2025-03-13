@@ -1,5 +1,6 @@
 package learn.packOverflow.models;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -9,14 +10,14 @@ public class Question {
     private User user;
     private String title;
     private String body;
-    private Date created;
-    private Date updated;
+    private LocalDate created;
+    private LocalDate updated;
 
 
     public Question() {
     }
 
-    public Question(int questionId, User user, String title, String body, Date created, Date updated) {
+    public Question(int questionId, User user, String title, String body, LocalDate created, LocalDate updated) {
         this.questionId = questionId;
         this.user = user;
         this.title = title;
@@ -57,19 +58,19 @@ public class Question {
         this.body = body;
     }
 
-    public Date getCreated() {
+    public LocalDate getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDate created) {
         this.created = created;
     }
 
-    public Date getUpdated() {
+    public LocalDate getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(LocalDate updated) {
         this.updated = updated;
     }
 
