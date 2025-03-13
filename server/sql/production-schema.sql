@@ -35,3 +35,7 @@ question_id int NOT NULL,
 
 );
 
+insert into `user` (username, `password`, `email`, first_name, last_name)
+	values
+    ('test username 1', 'password1','email', 'Brandi', 'Murray'),
+	('test username 2', 'password2', 'email2', 'Kyle', 'Murray');
