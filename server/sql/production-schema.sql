@@ -18,8 +18,7 @@ question_id int primary key auto_increment,
 	`body` text NOT NULL,
 	`created` DATE NOT NULL,
 	`updated` DATE NOT NULL,
-  foreign key (user_id) references `user`(user_id),
-
+  foreign key (user_id) references `user`(user_id)
 );
 
 
@@ -31,8 +30,7 @@ question_id int NOT NULL,
 	`created_at` DATE NOT NULL,
 	`updated` DATE NOT NULL,
   foreign key (user_id) references `user`(user_id),
-  foreign key (question_id) references `questions`(question_id),
-
+  foreign key (question_id) references `questions`(question_id)
 );
 
 insert into `user` (username, `password`, `email`, first_name, last_name)

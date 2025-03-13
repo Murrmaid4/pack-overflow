@@ -7,7 +7,7 @@ public class Answers {
 
     private int answerId;
     private User user;
-    private Questions question;
+    private Question question;
     private String body;
     private Date created;
     private Date updated;
@@ -15,7 +15,7 @@ public class Answers {
     public Answers() {
     }
 
-    public Answers(int answerId, User user, Questions question, String body, Date created, Date updated) {
+    public Answers(int answerId, User user, Question question, String body, Date created, Date updated) {
         this.answerId = answerId;
         this.user = user;
         this.question = question;
@@ -40,11 +40,11 @@ public class Answers {
         this.user = user;
     }
 
-    public Questions getQuestion() {
+    public Question getQuestion() {
         return question;
     }
 
-    public void setQuestion(Questions question) {
+    public void setQuestion(Question question) {
         this.question = question;
     }
 
