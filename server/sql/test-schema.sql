@@ -38,4 +38,10 @@ question_id int NOT NULL,
 insert into `user` (username, `password`, `email`, first_name, last_name)
 	values
     ('test username 1', 'password1','email', 'Brandi', 'Murray'),
+
 	('test username 2', 'password2', 'email2', 'Kyle', 'Murray');
+    
+-- insert into `questions` (`user_id`, `title`, `body`, `created`, `updated`)
+-- values
+-- (1, 'spring break in siberia', 'what should i pack for spring break in siberia?', 
+
