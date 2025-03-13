@@ -80,7 +80,7 @@ class QuestionJdbcClientRepositoryTest {
     void shouldFindByKeywordInBodyAndTitle() {
         Set<Question> expected = Set.of(TestHelper.existingQuestion);
 
-        Set<Question> actual = repository.findByKeyword("nova");
+        Set<Question> actual = repository.findByKeyword("Nova");
 
         assertEquals(expected, actual);
     }
