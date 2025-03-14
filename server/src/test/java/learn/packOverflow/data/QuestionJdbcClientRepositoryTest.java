@@ -152,6 +152,10 @@ class QuestionJdbcClientRepositoryTest {
         assertEquals(updatedBody, repository.findById(existingQuestion.getQuestionId()).getBody());
         assertEquals(existingQuestion, repository.findById(existingQuestion.getQuestionId()));
         //how to test this when the update is set at the exact second of creation
+        //make a class that has static method that returns local date now
+        //mockbean that class in test
+        //use that class to get local date now in code
+        //when my localdate time.get now then return whatever i set as the localdate time
     }
     @Test
     void shouldNotUpdateMissingId(){
