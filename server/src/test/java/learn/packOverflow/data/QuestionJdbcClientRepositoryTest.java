@@ -55,10 +55,9 @@ class QuestionJdbcClientRepositoryTest {
 
         @Test
         void shouldNotFindByMissingUser() {
-            int nonexistentUserId = 999;
             List<Question> expected = List.of();
 
-            List<Question> actual = repository.findByUser(nonexistentUserId);
+            List<Question> actual = repository.findByUser(TestHelper.nonexistentId);
 
             assertEquals(expected, actual);
 
@@ -111,10 +110,9 @@ class QuestionJdbcClientRepositoryTest {
         }
         @Test
         void shouldNotFindByMissingQuestionId(){
-            int nonexistentQuestionId = 999;
             Question expected = null;
 
-            Question actual = repository.findById(nonexistentQuestionId);
+            Question actual = repository.findById(TestHelper.nonexistentId);
 
             assertNull(actual);
             assertEquals(expected, actual);
@@ -140,13 +138,38 @@ class QuestionJdbcClientRepositoryTest {
 
     @Test
     void shouldUpdate() {
-        Question existingQuestion = TestHelper.existingQuestion;
-        existingQuestion.setBody("never mind, i'm getting a job");
+        Question existingQuestion = new Question();
+        existingQuestion.setQuestionId(TestHelper.existingQuestion.getQuestionId());
+        existingQuestion.setUser(TestHelper.existingQuestion.getUser());
+        existingQuestion.setTitle(TestHelper.existingQuestion.getTitle());
+        String updatedBody = "never mind, i'm getting a job";
+        existingQuestion.setBody(updatedBody);
+        existingQuestion.setCreated(TestHelper.existingQuestion.getCreated());
+        existingQuestion.setUpdated(TestHelper.existingQuestion.getUpdated());
 
         boolean actual = repository.update(existingQuestion);
 
         assertTrue(actual);
+        assertEquals(updatedBody, repository.findById(existingQuestion.getQuestionId()).getBody());
         assertEquals(existingQuestion, repository.findById(existingQuestion.getQuestionId()));
+    }
+    @Test
+    void shouldNotUpdateMissingId(){
+        Question failUpdate = new Question();
+        failUpdate.setQuestionId(TestHelper.nonexistentId);
+        failUpdate.setUser(TestHelper.existingQuestion.getUser());
+        failUpdate.setTitle(TestHelper.existingQuestion.getTitle());
+        String updatedBody = "never mind, i'm getting a job";
+        failUpdate.setBody(updatedBody);
+        failUpdate.setCreated(TestHelper.existingQuestion.getCreated());
+        failUpdate.setUpdated(TestHelper.existingQuestion.getUpdated());
+        boolean expected = false;
+
+        boolean actual = repository.update(failUpdate);
+
+        assertFalse(actual);
+        assertEquals(expected, actual);
+        assertNull(repository.findById(failUpdate.getQuestionId()));
     }
 
     @Test

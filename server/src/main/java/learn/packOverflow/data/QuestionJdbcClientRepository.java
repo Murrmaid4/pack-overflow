@@ -81,7 +81,25 @@ public class QuestionJdbcClientRepository implements QuestionRepository{
 
     @Override
     public boolean update(Question question) {
-        return false;
+        final String sql = """
+                update questions set
+                    user_id = ?,
+                    title = ?,
+                    body = ?,
+                    created = ?,
+                    updated = ?
+                where question_id = ?
+                """;
+
+        return jdbcClient.sql(sql)
+                .param(question.getUser().getUserId())
+                .param(question.getTitle())
+                .param(question.getBody())
+                .param(question.getCreated())
+                .param(question.getUpdated())
+                .param(question.getQuestionId())
+                .update() > 0
+                ;
     }
 
     @Override
