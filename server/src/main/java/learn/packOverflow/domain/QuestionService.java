@@ -47,12 +47,25 @@ public class QuestionService {
         return result;
     }
     Result<Question> findById(int questionId) {
-        return null;
+        Result<Question> result = new Result<>();
+        if (questionId <= 0){
+            result.addErrorMessage("Invalid question ID", ResultType.INVALID);
+            return result;
+        }
+        Question foundQuestion = repository.findById(questionId);
+        if (foundQuestion == null){
+            result.addErrorMessage("Question not found", ResultType.NOT_FOUND);
+        } else {
+            result.setPayload(foundQuestion);
+        }
+        return result;
     }
     Result<Question> create(Question question) {
+        Result<Question> result = new Result<>();
         return null;
     }
     Result<Question> update(Question question) {
+        Result<Question> result = new Result<>();
         return null;
     }
     Result<Boolean> deleteById(int id) {

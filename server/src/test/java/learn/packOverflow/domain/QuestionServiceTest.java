@@ -105,6 +105,33 @@ class QuestionServiceTest {
 
     @Test
     void findById() {
+        Result<Question> expected = new Result<>();
+        expected.setPayload(TestHelper.existingQuestion);
+        when(repository.findById(TestHelper.existingQuestion.getQuestionId())).thenReturn(TestHelper.existingQuestion);
+
+        Result<Question> actual = service.findById(TestHelper.existingQuestion.getQuestionId());
+
+        assertEquals(expected, actual);
+    }
+    @Test
+    void shouldNotFindInvalidId() {
+        Result<Question> expected = new Result<>();
+        int invalidId = -5;
+        expected.addErrorMessage("Invalid question ID", ResultType.INVALID);
+
+        Result<Question> actual = service.findById(invalidId);
+
+        assertEquals(expected, actual);
+    }
+    @Test
+    void shouldNotFindNonexistentId() {
+        Result<Question> expected = new Result<>();
+        expected.addErrorMessage("Question not found", ResultType.NOT_FOUND);
+        when(repository.findById(TestHelper.nonexistentId)).thenReturn(null);
+
+        Result<Question> actual = service.findById(TestHelper.nonexistentId);
+
+        assertEquals(expected, actual);
     }
 
     @Test
