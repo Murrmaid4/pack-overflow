@@ -3,6 +3,7 @@ package learn.packOverflow.data;
 import learn.packOverflow.models.Question;
 import learn.packOverflow.models.User;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,71 +28,97 @@ class QuestionJdbcClientRepositoryTest {
         jdbcClient.sql("call set_known_good_state();").update();
     }
 
-    @Test
-    void shouldFindAll() {
-        List<Question> expected = List.of(TestHelper.existingQuestion);
+    @Nested
+    public class FindTests {
+        @Test
+        void shouldFindAll() {
+            List<Question> expected = List.of(TestHelper.existingQuestion);
 
-        List<Question> actual = repository.findAll();
+            List<Question> actual = repository.findAll();
 
-        assertNotNull(actual);
-        assertEquals(expected.size(), actual.size());
-        assertEquals(expected, actual);
-    }
+            assertNotNull(actual);
+            assertEquals(expected.size(), actual.size());
+            assertEquals(expected, actual);
+        }
 
-    @Test
-    void shouldFindByUser() {
-        User existingUser = TestHelper.existingUser;
-        List<Question> expected = List.of(TestHelper.existingQuestion);
+        @Test
+        void shouldFindByUser() {
+            User existingUser = TestHelper.existingUser;
+            List<Question> expected = List.of(TestHelper.existingQuestion);
 
-        List<Question> actual = repository.findByUser(existingUser.getUserId());
+            List<Question> actual = repository.findByUser(existingUser.getUserId());
 
-        assertNotNull(actual);
-        assertEquals(expected, actual);
+            assertNotNull(actual);
+            assertEquals(expected, actual);
 
-    }
-    @Test
-    void shouldNotFindByMissingUser() {
-        int nonexistentUserId = 999;
-        List<Question> expected = List.of();
+        }
 
-        List<Question> actual = repository.findByUser(nonexistentUserId);
+        @Test
+        void shouldNotFindByMissingUser() {
+            int nonexistentUserId = 999;
+            List<Question> expected = List.of();
 
-        assertEquals(expected, actual);
+            List<Question> actual = repository.findByUser(nonexistentUserId);
 
-    }
+            assertEquals(expected, actual);
 
-    @Test
-    void shouldFindByKeywordInTitle() {
-        Set<Question> expected = Set.of(TestHelper.existingQuestion);
+        }
 
-        Set<Question> actual = repository.findByKeyword("moving");
+        @Test
+        void shouldFindByKeywordInTitle() {
+            Set<Question> expected = Set.of(TestHelper.existingQuestion);
 
-        assertEquals(expected, actual);
-    }
-    @Test
-    void shouldFindByKeywordInBody() {
-        Set<Question> expected = Set.of(TestHelper.existingQuestion);
+            Set<Question> actual = repository.findByKeyword("moving");
 
-        Set<Question> actual = repository.findByKeyword("fishing");
+            assertEquals(expected, actual);
+        }
 
-        assertEquals(expected, actual);
-    }
-    @Test
-    void shouldFindByKeywordInBodyAndTitle() {
-        Set<Question> expected = Set.of(TestHelper.existingQuestion);
+        @Test
+        void shouldFindByKeywordInBody() {
+            Set<Question> expected = Set.of(TestHelper.existingQuestion);
 
-        Set<Question> actual = repository.findByKeyword("Nova");
+            Set<Question> actual = repository.findByKeyword("fishing");
 
-        assertEquals(expected, actual);
-    }
+            assertEquals(expected, actual);
+        }
 
-    @Test
-    void shouldNotFindByMissingKeyword(){
-        Set<Question> expected = Set.of();
+        @Test
+        void shouldFindByKeywordInBodyAndTitle() {
+            Set<Question> expected = Set.of(TestHelper.existingQuestion);
 
-        Set<Question> actual = repository.findByKeyword("florida");
+            Set<Question> actual = repository.findByKeyword("Nova");
 
-        assertEquals(expected, actual);
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotFindByMissingKeyword() {
+            Set<Question> expected = Set.of();
+
+            Set<Question> actual = repository.findByKeyword("florida");
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldFindById(){
+            Question expected = TestHelper.existingQuestion;
+
+            Question actual = repository.findById(expected.getQuestionId());
+
+            assertNotNull(actual);
+            assertEquals(expected, actual);
+        }
+        @Test
+        void shouldNotFindByMissingQuestionId(){
+            int nonexistentQuestionId = 999;
+            Question expected = null;
+
+            Question actual = repository.findById(nonexistentQuestionId);
+
+            assertNull(actual);
+            assertEquals(expected, actual);
+        }
     }
 
     @Test
@@ -109,12 +136,17 @@ class QuestionJdbcClientRepositoryTest {
 
         assertNotNull(actual);
         assertEquals(2, actual.getQuestionId());
-
-
     }
 
     @Test
-    void update() {
+    void shouldUpdate() {
+        Question existingQuestion = TestHelper.existingQuestion;
+        existingQuestion.setBody("never mind, i'm getting a job");
+
+        boolean actual = repository.update(existingQuestion);
+
+        assertTrue(actual);
+        assertEquals(existingQuestion, repository.findById(existingQuestion.getQuestionId()));
     }
 
     @Test

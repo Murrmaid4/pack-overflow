@@ -49,6 +49,16 @@ public class QuestionJdbcClientRepository implements QuestionRepository{
     }
 
     @Override
+    public Question findById(int questionId) {
+        final String sql = SELECT + " where question_id = ?;";
+
+        return jdbcClient.sql(sql)
+                .param(questionId)
+                .query(new QuestionsMapper())
+                .optional().orElse(null);
+    }
+
+    @Override
     public Question create(Question question) {
         final String sql = "insert into questions (user_id, title, body, created, updated) values (:user_id, :title, :body, :created, :updated);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
