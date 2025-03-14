@@ -16,21 +16,10 @@ question_id int primary key auto_increment,
 	user_id int NOT NULL,
 	title varchar(255) NOT NULL,
 	body text NOT NULL,
-	created DATE NOT NULL,
-	updated DATE NOT NULL,
+	created DATETIME NOT NULL,
+	updated DATETIME NOT NULL,
    constraint foreign key (user_id) references `user`(user_id) 
 );
-
--- create table `answers`(
--- answer_id int primary key auto_increment,
--- `user_id` int NOT NULL,
--- question_id int NOT NULL,
---     `body` text NOT NULL,
--- 	`created_at` DATE NOT NULL,
--- 	`updated` DATE NOT NULL,
---   foreign key (user_id) references `user`(user_id),
---   foreign key (question_id) references `questions`(question_id)
--- );
 
 create table `answers`(
 answer_id int primary key auto_increment,
@@ -62,14 +51,14 @@ begin
     
 	insert into questions (user_id, title, body, created, updated)
 	values
-	(1, 'moving to nova scotia', 'do i need to pack my own fishing gear or can i buy it there?', '2025-03-24', '2025-03-25');
+
+	(1, 'moving to nova scotia', 'do i need to pack my own fishing gear or can i buy it in nova scotia?', '2025-03-24 11-54-15', '2025-03-25 08-15-22');
 
 	insert into answers (user_id,question_id,body,created_at,updated) 
     values 
     (2,1,"what time of year are you going to nova scotia?", '2025-03-24', '2025-03-25');
     
    
-
 end//
 delimiter ;
 
