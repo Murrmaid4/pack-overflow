@@ -60,8 +60,11 @@ public class QuestionService {
         }
         return result;
     }
-    Result<Question> create(Question question) {
-        Result<Question> result = new Result<>();
+    Result<Question> create(Question questionBeforeAdd) {
+        Result<Question> result = validateFields(questionBeforeAdd);
+        Question questionAfterAdd = repository.create(questionBeforeAdd);
+        result.setPayload(questionAfterAdd);
+
         return null;
     }
     Result<Question> update(Question question) {
