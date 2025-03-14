@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class QuestionsMapper implements RowMapper<Question> {
     UserMapper userMapper = new UserMapper();
@@ -19,8 +20,8 @@ public class QuestionsMapper implements RowMapper<Question> {
         question.setUser(user);
         question.setTitle(rs.getString("title"));
         question.setBody(rs.getString("body"));
-        question.setCreated(rs.getDate("created").toLocalDate());
-        question.setUpdated(rs.getDate("updated").toLocalDate());
+        question.setCreated(rs.getTimestamp("created").toLocalDateTime());
+        question.setUpdated(rs.getTimestamp("updated").toLocalDateTime());
 
         return question;
     }

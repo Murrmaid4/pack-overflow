@@ -127,8 +127,6 @@ class QuestionJdbcClientRepositoryTest {
         beforeAdd.setUser(testUser);
         beforeAdd.setTitle("Test title");
         beforeAdd.setBody("Test body");
-        beforeAdd.setCreated(LocalDate.now().minusDays(1));
-        beforeAdd.setUpdated(LocalDate.now());
         int sizeBeforeAdd = repository.findAll().size();
 
         Question actual = repository.create(beforeAdd);
@@ -147,13 +145,13 @@ class QuestionJdbcClientRepositoryTest {
         String updatedBody = "never mind, i'm getting a job";
         existingQuestion.setBody(updatedBody);
         existingQuestion.setCreated(TestHelper.existingQuestion.getCreated());
-        existingQuestion.setUpdated(TestHelper.existingQuestion.getUpdated());
 
         boolean actual = repository.update(existingQuestion);
 
         assertTrue(actual);
         assertEquals(updatedBody, repository.findById(existingQuestion.getQuestionId()).getBody());
         assertEquals(existingQuestion, repository.findById(existingQuestion.getQuestionId()));
+        //how to test this when the update is set at the exact second of creation
     }
     @Test
     void shouldNotUpdateMissingId(){

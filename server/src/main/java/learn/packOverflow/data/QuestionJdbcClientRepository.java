@@ -7,6 +7,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -67,8 +68,8 @@ public class QuestionJdbcClientRepository implements QuestionRepository{
                 .param("user_id", question.getUser().getUserId())
                 .param("title", question.getTitle())
                 .param("body", question.getBody())
-                .param("created", question.getCreated())
-                .param("updated", question.getUpdated())
+                .param("created", LocalDateTime.now())
+                .param("updated", LocalDateTime.now())
                 .update(keyHolder, "question_id");
         if (rowsAffected <= 0){
             return null;
@@ -96,7 +97,7 @@ public class QuestionJdbcClientRepository implements QuestionRepository{
                 .param(question.getTitle())
                 .param(question.getBody())
                 .param(question.getCreated())
-                .param(question.getUpdated())
+                .param(LocalDateTime.now())
                 .param(question.getQuestionId())
                 .update() > 0
                 ;
