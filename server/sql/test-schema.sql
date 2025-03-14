@@ -34,19 +34,21 @@ question_id int primary key auto_increment,
 
 create table `answers`(
 answer_id int primary key auto_increment,
-`user_id` int NOT NULL,
+user_id int NOT NULL,
 question_id int NOT NULL,
-    `body` text NOT NULL,
-	`created_at` DATE NOT NULL,
-	`updated` DATE NOT NULL,
-  foreign key (user_id) references `user`(user_id),
-  foreign key (question_id) references `questions`(question_id)
+body text NOT NULL,
+	created_at DATE NOT NULL,
+	updated DATE NOT NULL,
+  constraint foreign key (user_id) references `user`(user_id),
+  constraint foreign key (question_id) references questions(question_id)
 
 );
 
 delimiter //
 create procedure set_known_good_state()
 begin
+	delete from answers;
+    alter table answers auto_increment = 1;
 	delete from questions;
     alter table questions auto_increment = 1;
     delete from `user`;
@@ -61,6 +63,13 @@ begin
 	insert into questions (user_id, title, body, created, updated)
 	values
 	(1, 'moving to nova scotia', 'do i need to pack my own fishing gear or can i buy it there?', '2025-03-24', '2025-03-25');
+
+	insert into answers (user_id,question_id,body,created_at,updated) 
+    values 
+    (2,1,"what time of year are you going to nova scotia?", '2025-03-24', '2025-03-25');
+    
+   
+
 end//
 delimiter ;
 
