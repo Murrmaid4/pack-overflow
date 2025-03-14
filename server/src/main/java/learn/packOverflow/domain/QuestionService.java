@@ -32,12 +32,19 @@ public class QuestionService {
         }
         return result;
     }
-    Result<List<Question>> findByKeyword(String keyword) {
-        Result<List<Question>> result = new Result<>();
+    Result<Set<Question>> findByKeyword(String keyword) {
+        Result<Set<Question>> result = new Result<>();
         if (keyword == null || keyword.isBlank()){
             result.addErrorMessage("keyword required", ResultType.INVALID);
+            return result;
         }
-        return null;
+        Set<Question> questionsByKeyword = repository.findByKeyword(keyword);
+        if (questionsByKeyword == null || questionsByKeyword.isEmpty()){
+            result.addErrorMessage("No questions found", ResultType.NOT_FOUND);
+        } else {
+            result.setPayload(questionsByKeyword);
+        }
+        return result;
     }
     Result<Question> findById(int questionId) {
         return null;

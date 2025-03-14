@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -60,6 +61,46 @@ class QuestionServiceTest {
 
     @Test
     void findByKeyword() {
+        Set<Question> questionSet = Set.of(TestHelper.existingQuestion);
+        Result<Set<Question>> expected = new Result<>();
+        expected.setPayload(questionSet);
+        String keyword = TestHelper.existingQuestion.getBody().substring(10);
+        when(repository.findByKeyword(keyword)).thenReturn(questionSet);
+
+        Result<Set<Question>> actual = service.findByKeyword(keyword);
+
+        assertEquals(expected, actual);
+    }
+    @Test
+    void shouldNotFindByNullKeyword() {
+        Result<Set<Question>> expected = new Result<>();
+        expected.addErrorMessage("keyword required", ResultType.INVALID);
+        String keyword = null;
+
+        Result<Set<Question>> actual = service.findByKeyword(keyword);
+
+        assertEquals(expected, actual);
+    }
+    @Test
+    void shouldNotFindByBlankKeyword() {
+        Result<Set<Question>> expected = new Result<>();
+        expected.addErrorMessage("keyword required", ResultType.INVALID);
+        String keyword = "          ";
+
+        Result<Set<Question>> actual = service.findByKeyword(keyword);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldNotFindByNonexistentKeyword() {
+        Result<Set<Question>> expected = new Result<>();
+        expected.addErrorMessage("No questions found", ResultType.NOT_FOUND);
+        String keyword = "null";
+
+        Result<Set<Question>> actual = service.findByKeyword(keyword);
+
+        assertEquals(expected, actual);
     }
 
     @Test
