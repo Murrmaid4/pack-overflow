@@ -129,11 +129,13 @@ class QuestionJdbcClientRepositoryTest {
         beforeAdd.setBody("Test body");
         beforeAdd.setCreated(LocalDate.now().minusDays(1));
         beforeAdd.setUpdated(LocalDate.now());
+        int sizeBeforeAdd = repository.findAll().size();
 
         Question actual = repository.create(beforeAdd);
 
         assertNotNull(actual);
         assertEquals(2, actual.getQuestionId());
+        assertEquals(sizeBeforeAdd + 1, repository.findAll().size());
     }
 
     @Test
@@ -174,5 +176,24 @@ class QuestionJdbcClientRepositoryTest {
 
     @Test
     void deleteById() {
+        int sizeBeforeDelete = repository.findAll().size();
+        boolean expected = true;
+
+        boolean actual = repository.deleteById(TestHelper.existingQuestion.getQuestionId());
+
+        assertTrue(actual);
+        assertEquals(expected, actual);
+        assertEquals(sizeBeforeDelete - 1, repository.findAll().size());
+    }
+    @Test
+    void shouldNotDeleteMissingId() {
+        int sizeBeforeDelete = repository.findAll().size();
+        boolean expected = false;
+
+        boolean actual = repository.deleteById(TestHelper.nonexistentId);
+
+        assertFalse(actual);
+        assertEquals(expected, actual);
+        assertEquals(sizeBeforeDelete, repository.findAll().size());
     }
 }

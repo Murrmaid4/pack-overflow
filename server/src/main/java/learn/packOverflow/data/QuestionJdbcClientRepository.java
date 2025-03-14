@@ -104,6 +104,9 @@ public class QuestionJdbcClientRepository implements QuestionRepository{
 
     @Override
     public boolean deleteById(int id) {
-        return false;
+        final String sql = "delete from questions where question_id = ?;";
+        return jdbcClient.sql(sql)
+                .param(id)
+                .update() > 0;
     }
 }
